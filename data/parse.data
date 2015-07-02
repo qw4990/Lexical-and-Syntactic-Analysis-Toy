@@ -1,0 +1,623 @@
+rules: 30
+	program->stmt-sequence 
+	stmt-sequence->stmt-sequence ; statement 
+	stmt-sequence->statement 
+	statement->if-stmt 
+	statement->repeat-stmt 
+	statement->assign-stmt 
+	statement->read-stmt 
+	statement->write-stmt 
+	if-stmt->if exp then stmt-sequence end 
+	if-stmt->if exp then stmt-sequence else stmt-sequence end 
+	repeat-stmt->repeat stmt-sequence until exp 
+	assign-stmt->identifier := exp 
+	read-stmt->read identifier 
+	write-stmt->write exp 
+	exp->simple-exp comparison-op simple-exp 
+	exp->simple-exp 
+	comparison-op->< 
+	comparison-op->= 
+	comparison-op->> 
+	simple-exp->simple-exp addop term 
+	simple-exp->term 
+	addop->+ 
+	addop->- 
+	term->term mulop factor 
+	term->factor 
+	mulop->* 
+	mulop->/ 
+	factor->( exp ) 
+	factor->number 
+	factor->identifier 
+
+
+
+state size: 50
+state id: 0
+	rules : 14
+		program ->  .stmt-sequence , $ 
+		stmt-sequence ->  .stmt-sequence ; statement , $ ; 
+		stmt-sequence ->  .statement , $ ; 
+		statement ->  .if-stmt , $ ; 
+		statement ->  .repeat-stmt , $ ; 
+		statement ->  .assign-stmt , $ ; 
+		statement ->  .read-stmt , $ ; 
+		statement ->  .write-stmt , $ ; 
+		if-stmt ->  .if exp then stmt-sequence end , $ ; 
+		if-stmt ->  .if exp then stmt-sequence else stmt-sequence end , $ ; 
+		repeat-stmt ->  .repeat stmt-sequence until exp , $ ; 
+		assign-stmt ->  .identifier := exp , $ ; 
+		read-stmt ->  .read identifier , $ ; 
+		write-stmt ->  .write exp , $ ; 
+	edge : 12
+		assign-stmt -> 1
+		identifier -> 2
+		if -> 3
+		if-stmt -> 4
+		read -> 5
+		read-stmt -> 6
+		repeat -> 7
+		repeat-stmt -> 8
+		statement -> 9
+		stmt-sequence -> 10
+		write -> 11
+		write-stmt -> 12
+
+state id: 1
+	rules : 1
+		statement ->  assign-stmt. , $ ; else end until 
+	edge : 0
+
+state id: 2
+	rules : 1
+		assign-stmt ->  identifier .:= exp , $ ; else end until 
+	edge : 1
+		:= -> 13
+
+state id: 3
+	rules : 11
+		if-stmt ->  if .exp then stmt-sequence end , $ ; else end until 
+		if-stmt ->  if .exp then stmt-sequence else stmt-sequence end , $ ; else end until 
+		exp ->  .simple-exp comparison-op simple-exp , then 
+		exp ->  .simple-exp , then 
+		simple-exp ->  .simple-exp addop term , + - < = > then 
+		simple-exp ->  .term , + - < = > then 
+		term ->  .term mulop factor , * + - / < = > then 
+		term ->  .factor , * + - / < = > then 
+		factor ->  .( exp ) , * + - / < = > then 
+		factor ->  .number , * + - / < = > then 
+		factor ->  .identifier , * + - / < = > then 
+	edge : 7
+		( -> 14
+		exp -> 15
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 19
+		term -> 20
+
+state id: 4
+	rules : 1
+		statement ->  if-stmt. , $ ; else end until 
+	edge : 0
+
+state id: 5
+	rules : 1
+		read-stmt ->  read .identifier , $ ; else end until 
+	edge : 1
+		identifier -> 21
+
+state id: 6
+	rules : 1
+		statement ->  read-stmt. , $ ; else end until 
+	edge : 0
+
+state id: 7
+	rules : 14
+		stmt-sequence ->  .stmt-sequence ; statement , ; until 
+		stmt-sequence ->  .statement , ; until 
+		statement ->  .if-stmt , ; until 
+		statement ->  .repeat-stmt , ; until 
+		statement ->  .assign-stmt , ; until 
+		statement ->  .read-stmt , ; until 
+		statement ->  .write-stmt , ; until 
+		if-stmt ->  .if exp then stmt-sequence end , ; until 
+		if-stmt ->  .if exp then stmt-sequence else stmt-sequence end , ; until 
+		repeat-stmt ->  .repeat stmt-sequence until exp , ; until 
+		repeat-stmt ->  repeat .stmt-sequence until exp , $ ; else end until 
+		assign-stmt ->  .identifier := exp , ; until 
+		read-stmt ->  .read identifier , ; until 
+		write-stmt ->  .write exp , ; until 
+	edge : 12
+		assign-stmt -> 1
+		identifier -> 2
+		if -> 3
+		if-stmt -> 4
+		read -> 5
+		read-stmt -> 6
+		repeat -> 7
+		repeat-stmt -> 8
+		statement -> 9
+		stmt-sequence -> 22
+		write -> 11
+		write-stmt -> 12
+
+state id: 8
+	rules : 1
+		statement ->  repeat-stmt. , $ ; else end until 
+	edge : 0
+
+state id: 9
+	rules : 1
+		stmt-sequence ->  statement. , $ ; else end until 
+	edge : 0
+
+state id: 10
+	rules : 2
+		program ->  stmt-sequence. , $ 
+		stmt-sequence ->  stmt-sequence .; statement , $ ; 
+	edge : 1
+		; -> 23
+
+state id: 11
+	rules : 10
+		write-stmt ->  write .exp , $ ; else end until 
+		exp ->  .simple-exp comparison-op simple-exp , $ ; else end until 
+		exp ->  .simple-exp , $ ; else end until 
+		simple-exp ->  .simple-exp addop term , $ + - ; < = > else end until 
+		simple-exp ->  .term , $ + - ; < = > else end until 
+		term ->  .term mulop factor , $ * + - / ; < = > else end until 
+		term ->  .factor , $ * + - / ; < = > else end until 
+		factor ->  .( exp ) , $ * + - / ; < = > else end until 
+		factor ->  .number , $ * + - / ; < = > else end until 
+		factor ->  .identifier , $ * + - / ; < = > else end until 
+	edge : 7
+		( -> 14
+		exp -> 24
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 19
+		term -> 20
+
+state id: 12
+	rules : 1
+		statement ->  write-stmt. , $ ; else end until 
+	edge : 0
+
+state id: 13
+	rules : 10
+		assign-stmt ->  identifier := .exp , $ ; else end until 
+		exp ->  .simple-exp comparison-op simple-exp , $ ; else end until 
+		exp ->  .simple-exp , $ ; else end until 
+		simple-exp ->  .simple-exp addop term , $ + - ; < = > else end until 
+		simple-exp ->  .term , $ + - ; < = > else end until 
+		term ->  .term mulop factor , $ * + - / ; < = > else end until 
+		term ->  .factor , $ * + - / ; < = > else end until 
+		factor ->  .( exp ) , $ * + - / ; < = > else end until 
+		factor ->  .number , $ * + - / ; < = > else end until 
+		factor ->  .identifier , $ * + - / ; < = > else end until 
+	edge : 7
+		( -> 14
+		exp -> 25
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 19
+		term -> 20
+
+state id: 14
+	rules : 10
+		exp ->  .simple-exp comparison-op simple-exp , ) 
+		exp ->  .simple-exp , ) 
+		simple-exp ->  .simple-exp addop term , ) + - < = > 
+		simple-exp ->  .term , ) + - < = > 
+		term ->  .term mulop factor , ) * + - / < = > 
+		term ->  .factor , ) * + - / < = > 
+		factor ->  .( exp ) , ) * + - / < = > 
+		factor ->  ( .exp ) , $ ) * + - / ; < = > else end then until 
+		factor ->  .number , ) * + - / < = > 
+		factor ->  .identifier , ) * + - / < = > 
+	edge : 7
+		( -> 14
+		exp -> 26
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 19
+		term -> 20
+
+state id: 15
+	rules : 2
+		if-stmt ->  if exp .then stmt-sequence end , $ ; else end until 
+		if-stmt ->  if exp .then stmt-sequence else stmt-sequence end , $ ; else end until 
+	edge : 1
+		then -> 27
+
+state id: 16
+	rules : 1
+		term ->  factor. , $ ) * + - / ; < = > else end then until 
+	edge : 0
+
+state id: 17
+	rules : 1
+		factor ->  identifier. , $ ) * + - / ; < = > else end then until 
+	edge : 0
+
+state id: 18
+	rules : 1
+		factor ->  number. , $ ) * + - / ; < = > else end then until 
+	edge : 0
+
+state id: 19
+	rules : 8
+		exp ->  simple-exp .comparison-op simple-exp , $ ) ; else end then until 
+		exp ->  simple-exp. , $ ) ; else end then until 
+		comparison-op ->  .< , ( identifier number 
+		comparison-op ->  .= , ( identifier number 
+		comparison-op ->  .> , ( identifier number 
+		simple-exp ->  simple-exp .addop term , $ ) + - ; < = > else end then until 
+		addop ->  .+ , ( identifier number 
+		addop ->  .- , ( identifier number 
+	edge : 7
+		+ -> 28
+		- -> 29
+		< -> 30
+		= -> 31
+		> -> 32
+		addop -> 33
+		comparison-op -> 34
+
+state id: 20
+	rules : 4
+		simple-exp ->  term. , $ ) + - ; < = > else end then until 
+		term ->  term .mulop factor , $ ) * + - / ; < = > else end then until 
+		mulop ->  .* , ( identifier number 
+		mulop ->  ./ , ( identifier number 
+	edge : 3
+		* -> 35
+		/ -> 36
+		mulop -> 37
+
+state id: 21
+	rules : 1
+		read-stmt ->  read identifier. , $ ; else end until 
+	edge : 0
+
+state id: 22
+	rules : 2
+		stmt-sequence ->  stmt-sequence .; statement , ; until 
+		repeat-stmt ->  repeat stmt-sequence .until exp , $ ; else end until 
+	edge : 2
+		; -> 23
+		until -> 38
+
+state id: 23
+	rules : 12
+		stmt-sequence ->  stmt-sequence ; .statement , $ ; else end until 
+		statement ->  .if-stmt , $ ; else end until 
+		statement ->  .repeat-stmt , $ ; else end until 
+		statement ->  .assign-stmt , $ ; else end until 
+		statement ->  .read-stmt , $ ; else end until 
+		statement ->  .write-stmt , $ ; else end until 
+		if-stmt ->  .if exp then stmt-sequence end , $ ; else end until 
+		if-stmt ->  .if exp then stmt-sequence else stmt-sequence end , $ ; else end until 
+		repeat-stmt ->  .repeat stmt-sequence until exp , $ ; else end until 
+		assign-stmt ->  .identifier := exp , $ ; else end until 
+		read-stmt ->  .read identifier , $ ; else end until 
+		write-stmt ->  .write exp , $ ; else end until 
+	edge : 11
+		assign-stmt -> 1
+		identifier -> 2
+		if -> 3
+		if-stmt -> 4
+		read -> 5
+		read-stmt -> 6
+		repeat -> 7
+		repeat-stmt -> 8
+		statement -> 39
+		write -> 11
+		write-stmt -> 12
+
+state id: 24
+	rules : 1
+		write-stmt ->  write exp. , $ ; else end until 
+	edge : 0
+
+state id: 25
+	rules : 1
+		assign-stmt ->  identifier := exp. , $ ; else end until 
+	edge : 0
+
+state id: 26
+	rules : 1
+		factor ->  ( exp .) , $ ) * + - / ; < = > else end then until 
+	edge : 1
+		) -> 40
+
+state id: 27
+	rules : 15
+		stmt-sequence ->  .stmt-sequence ; statement , else end 
+		stmt-sequence ->  .statement , else end 
+		statement ->  .if-stmt , else end 
+		statement ->  .repeat-stmt , else end 
+		statement ->  .assign-stmt , else end 
+		statement ->  .read-stmt , else end 
+		statement ->  .write-stmt , else end 
+		if-stmt ->  .if exp then stmt-sequence end , else end 
+		if-stmt ->  if exp then .stmt-sequence end , $ ; else end until 
+		if-stmt ->  .if exp then stmt-sequence else stmt-sequence end , else end 
+		if-stmt ->  if exp then .stmt-sequence else stmt-sequence end , $ ; else end until 
+		repeat-stmt ->  .repeat stmt-sequence until exp , else end 
+		assign-stmt ->  .identifier := exp , else end 
+		read-stmt ->  .read identifier , else end 
+		write-stmt ->  .write exp , else end 
+	edge : 12
+		assign-stmt -> 1
+		identifier -> 2
+		if -> 3
+		if-stmt -> 4
+		read -> 5
+		read-stmt -> 6
+		repeat -> 7
+		repeat-stmt -> 8
+		statement -> 9
+		stmt-sequence -> 41
+		write -> 11
+		write-stmt -> 12
+
+state id: 28
+	rules : 1
+		addop ->  +. , ( identifier number 
+	edge : 0
+
+state id: 29
+	rules : 1
+		addop ->  -. , ( identifier number 
+	edge : 0
+
+state id: 30
+	rules : 1
+		comparison-op ->  <. , ( identifier number 
+	edge : 0
+
+state id: 31
+	rules : 1
+		comparison-op ->  =. , ( identifier number 
+	edge : 0
+
+state id: 32
+	rules : 1
+		comparison-op ->  >. , ( identifier number 
+	edge : 0
+
+state id: 33
+	rules : 6
+		simple-exp ->  simple-exp addop .term , $ ) + - ; < = > else end then until 
+		term ->  .term mulop factor , $ ) * + - / ; < = > else end then until 
+		term ->  .factor , $ ) * + - / ; < = > else end then until 
+		factor ->  .( exp ) , $ ) * + - / ; < = > else end then until 
+		factor ->  .number , $ ) * + - / ; < = > else end then until 
+		factor ->  .identifier , $ ) * + - / ; < = > else end then until 
+	edge : 5
+		( -> 14
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		term -> 42
+
+state id: 34
+	rules : 8
+		exp ->  simple-exp comparison-op .simple-exp , $ ) ; else end then until 
+		simple-exp ->  .simple-exp addop term , $ ) + - ; else end then until 
+		simple-exp ->  .term , $ ) + - ; else end then until 
+		term ->  .term mulop factor , $ ) * + - / ; else end then until 
+		term ->  .factor , $ ) * + - / ; else end then until 
+		factor ->  .( exp ) , $ ) * + - / ; else end then until 
+		factor ->  .number , $ ) * + - / ; else end then until 
+		factor ->  .identifier , $ ) * + - / ; else end then until 
+	edge : 6
+		( -> 14
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 43
+		term -> 20
+
+state id: 35
+	rules : 1
+		mulop ->  *. , ( identifier number 
+	edge : 0
+
+state id: 36
+	rules : 1
+		mulop ->  /. , ( identifier number 
+	edge : 0
+
+state id: 37
+	rules : 4
+		term ->  term mulop .factor , $ ) * + - / ; < = > else end then until 
+		factor ->  .( exp ) , $ ) * + - / ; < = > else end then until 
+		factor ->  .number , $ ) * + - / ; < = > else end then until 
+		factor ->  .identifier , $ ) * + - / ; < = > else end then until 
+	edge : 4
+		( -> 14
+		factor -> 44
+		identifier -> 17
+		number -> 18
+
+state id: 38
+	rules : 10
+		repeat-stmt ->  repeat stmt-sequence until .exp , $ ; else end until 
+		exp ->  .simple-exp comparison-op simple-exp , $ ; else end until 
+		exp ->  .simple-exp , $ ; else end until 
+		simple-exp ->  .simple-exp addop term , $ + - ; < = > else end until 
+		simple-exp ->  .term , $ + - ; < = > else end until 
+		term ->  .term mulop factor , $ * + - / ; < = > else end until 
+		term ->  .factor , $ * + - / ; < = > else end until 
+		factor ->  .( exp ) , $ * + - / ; < = > else end until 
+		factor ->  .number , $ * + - / ; < = > else end until 
+		factor ->  .identifier , $ * + - / ; < = > else end until 
+	edge : 7
+		( -> 14
+		exp -> 45
+		factor -> 16
+		identifier -> 17
+		number -> 18
+		simple-exp -> 19
+		term -> 20
+
+state id: 39
+	rules : 1
+		stmt-sequence ->  stmt-sequence ; statement. , $ ; else end until 
+	edge : 0
+
+state id: 40
+	rules : 1
+		factor ->  ( exp ). , $ ) * + - / ; < = > else end then until 
+	edge : 0
+
+state id: 41
+	rules : 3
+		stmt-sequence ->  stmt-sequence .; statement , else end 
+		if-stmt ->  if exp then stmt-sequence .end , $ ; else end until 
+		if-stmt ->  if exp then stmt-sequence .else stmt-sequence end , $ ; else end until 
+	edge : 3
+		; -> 23
+		else -> 46
+		end -> 47
+
+state id: 42
+	rules : 4
+		simple-exp ->  simple-exp addop term. , $ ) + - ; < = > else end then until 
+		term ->  term .mulop factor , $ ) * + - / ; < = > else end then until 
+		mulop ->  .* , ( identifier number 
+		mulop ->  ./ , ( identifier number 
+	edge : 3
+		* -> 35
+		/ -> 36
+		mulop -> 37
+
+state id: 43
+	rules : 4
+		exp ->  simple-exp comparison-op simple-exp. , $ ) ; else end then until 
+		simple-exp ->  simple-exp .addop term , $ ) + - ; else end then until 
+		addop ->  .+ , ( identifier number 
+		addop ->  .- , ( identifier number 
+	edge : 3
+		+ -> 28
+		- -> 29
+		addop -> 33
+
+state id: 44
+	rules : 1
+		term ->  term mulop factor. , $ ) * + - / ; < = > else end then until 
+	edge : 0
+
+state id: 45
+	rules : 1
+		repeat-stmt ->  repeat stmt-sequence until exp. , $ ; else end until 
+	edge : 0
+
+state id: 46
+	rules : 14
+		stmt-sequence ->  .stmt-sequence ; statement , 
+		stmt-sequence ->  .statement , 
+		statement ->  .if-stmt , 
+		statement ->  .repeat-stmt , 
+		statement ->  .assign-stmt , 
+		statement ->  .read-stmt , 
+		statement ->  .write-stmt , 
+		if-stmt ->  .if exp then stmt-sequence end , 
+		if-stmt ->  .if exp then stmt-sequence else stmt-sequence end , 
+		if-stmt ->  if exp then stmt-sequence else .stmt-sequence end , $ ; else end until 
+		repeat-stmt ->  .repeat stmt-sequence until exp , 
+		assign-stmt ->  .identifier := exp , 
+		read-stmt ->  .read identifier , 
+		write-stmt ->  .write exp , 
+	edge : 12
+		assign-stmt -> 1
+		identifier -> 2
+		if -> 3
+		if-stmt -> 4
+		read -> 5
+		read-stmt -> 6
+		repeat -> 7
+		repeat-stmt -> 8
+		statement -> 9
+		stmt-sequence -> 48
+		write -> 11
+		write-stmt -> 12
+
+state id: 47
+	rules : 1
+		if-stmt ->  if exp then stmt-sequence end. , $ ; else end until 
+	edge : 0
+
+state id: 48
+	rules : 2
+		stmt-sequence ->  stmt-sequence .; statement , 
+		if-stmt ->  if exp then stmt-sequence else stmt-sequence .end , $ ; else end until 
+	edge : 2
+		; -> 23
+		end -> 49
+
+state id: 49
+	rules : 1
+		if-stmt ->  if exp then stmt-sequence else stmt-sequence end. , $ ; else end until 
+	edge : 0
+
+
+
+
+state :move	  until	 repeat	   read	 number	     if	identifier	   then	    end	   else	  write	      $	      -	      (	      )	      *	      +	      >	      /	     :=	      ;	      <	      =	   term	stmt-sequence	statement	write-stmt	simple-exp	repeat-stmt	read-stmt	program	  mulop	if-stmt	 factor	    exp	comparison-op	assign-stmt	  addop	
+state0      	       	     s7	     s5	       	     s3	     s2	       	       	       	    s11	       	       	       	       	       	       	       	       	       	       	       	       	       	    s10	     s9	    s12	       	     s8	     s6	       	       	     s4	       	       	       	     s1	       	
+state1      	     r5	       	       	       	       	       	       	     r5	     r5	       	     r5	       	       	       	       	       	       	       	       	     r5	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state2      	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	    s13	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state3      	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s19	       	       	       	       	       	    s16	    s15	       	       	       	
+state4      	     r3	       	       	       	       	       	       	     r3	     r3	       	     r3	       	       	       	       	       	       	       	       	     r3	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state5      	       	       	       	       	       	    s21	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state6      	     r6	       	       	       	       	       	       	     r6	     r6	       	     r6	       	       	       	       	       	       	       	       	     r6	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state7      	       	     s7	     s5	       	     s3	     s2	       	       	       	    s11	       	       	       	       	       	       	       	       	       	       	       	       	       	    s22	     s9	    s12	       	     s8	     s6	       	       	     s4	       	       	       	     s1	       	
+state8      	     r4	       	       	       	       	       	       	     r4	     r4	       	     r4	       	       	       	       	       	       	       	       	     r4	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state9      	     r2	       	       	       	       	       	       	     r2	     r2	       	     r2	       	       	       	       	       	       	       	       	     r2	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state10     	       	       	       	       	       	       	       	       	       	       	     ac	       	       	       	       	       	       	       	       	    s23	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state11     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s19	       	       	       	       	       	    s16	    s24	       	       	       	
+state12     	     r7	       	       	       	       	       	       	     r7	     r7	       	     r7	       	       	       	       	       	       	       	       	     r7	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state13     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s19	       	       	       	       	       	    s16	    s25	       	       	       	
+state14     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s19	       	       	       	       	       	    s16	    s26	       	       	       	
+state15     	       	       	       	       	       	       	    s27	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state16     	    r24	       	       	       	       	       	    r24	    r24	    r24	       	    r24	    r24	       	    r24	    r24	    r24	    r24	    r24	       	    r24	    r24	    r24	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state17     	    r29	       	       	       	       	       	    r29	    r29	    r29	       	    r29	    r29	       	    r29	    r29	    r29	    r29	    r29	       	    r29	    r29	    r29	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state18     	    r28	       	       	       	       	       	    r28	    r28	    r28	       	    r28	    r28	       	    r28	    r28	    r28	    r28	    r28	       	    r28	    r28	    r28	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state19     	    r15	       	       	       	       	       	    r15	    r15	    r15	       	    r15	    s29	       	    r15	       	    s28	    s32	       	       	    r15	    s30	    s31	       	       	       	       	       	       	       	       	       	       	       	       	    s34	       	    s33	
+state20     	    r20	       	       	       	       	       	    r20	    r20	    r20	       	    r20	    r20	       	    r20	    s35	    r20	    r20	    s36	       	    r20	    r20	    r20	       	       	       	       	       	       	       	       	    s37	       	       	       	       	       	       	
+state21     	    r12	       	       	       	       	       	       	    r12	    r12	       	    r12	       	       	       	       	       	       	       	       	    r12	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state22     	    s38	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	    s23	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state23     	       	     s7	     s5	       	     s3	     s2	       	       	       	    s11	       	       	       	       	       	       	       	       	       	       	       	       	       	       	    s39	    s12	       	     s8	     s6	       	       	     s4	       	       	       	     s1	       	
+state24     	    r13	       	       	       	       	       	       	    r13	    r13	       	    r13	       	       	       	       	       	       	       	       	    r13	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state25     	    r11	       	       	       	       	       	       	    r11	    r11	       	    r11	       	       	       	       	       	       	       	       	    r11	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state26     	       	       	       	       	       	       	       	       	       	       	       	       	       	    s40	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state27     	       	     s7	     s5	       	     s3	     s2	       	       	       	    s11	       	       	       	       	       	       	       	       	       	       	       	       	       	    s41	     s9	    s12	       	     s8	     s6	       	       	     s4	       	       	       	     s1	       	
+state28     	       	       	       	    r21	       	    r21	       	       	       	       	       	       	    r21	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state29     	       	       	       	    r22	       	    r22	       	       	       	       	       	       	    r22	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state30     	       	       	       	    r16	       	    r16	       	       	       	       	       	       	    r16	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state31     	       	       	       	    r17	       	    r17	       	       	       	       	       	       	    r17	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state32     	       	       	       	    r18	       	    r18	       	       	       	       	       	       	    r18	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state33     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s42	       	       	       	       	       	       	       	       	       	    s16	       	       	       	       	
+state34     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s43	       	       	       	       	       	    s16	       	       	       	       	
+state35     	       	       	       	    r25	       	    r25	       	       	       	       	       	       	    r25	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state36     	       	       	       	    r26	       	    r26	       	       	       	       	       	       	    r26	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state37     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	    s44	       	       	       	       	
+state38     	       	       	       	    s18	       	    s17	       	       	       	       	       	       	    s14	       	       	       	       	       	       	       	       	       	    s20	       	       	       	    s19	       	       	       	       	       	    s16	    s45	       	       	       	
+state39     	     r1	       	       	       	       	       	       	     r1	     r1	       	     r1	       	       	       	       	       	       	       	       	     r1	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state40     	    r27	       	       	       	       	       	    r27	    r27	    r27	       	    r27	    r27	       	    r27	    r27	    r27	    r27	    r27	       	    r27	    r27	    r27	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state41     	       	       	       	       	       	       	       	    s47	    s46	       	       	       	       	       	       	       	       	       	       	    s23	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state42     	    r19	       	       	       	       	       	    r19	    r19	    r19	       	    r19	    r19	       	    r19	    s35	    r19	    r19	    s36	       	    r19	    r19	    r19	       	       	       	       	       	       	       	       	    s37	       	       	       	       	       	       	
+state43     	    r14	       	       	       	       	       	    r14	    r14	    r14	       	    r14	    s29	       	    r14	       	    s28	       	       	       	    r14	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	    s33	
+state44     	    r23	       	       	       	       	       	    r23	    r23	    r23	       	    r23	    r23	       	    r23	    r23	    r23	    r23	    r23	       	    r23	    r23	    r23	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state45     	    r10	       	       	       	       	       	       	    r10	    r10	       	    r10	       	       	       	       	       	       	       	       	    r10	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state46     	       	     s7	     s5	       	     s3	     s2	       	       	       	    s11	       	       	       	       	       	       	       	       	       	       	       	       	       	    s48	     s9	    s12	       	     s8	     s6	       	       	     s4	       	       	       	     s1	       	
+state47     	     r8	       	       	       	       	       	       	     r8	     r8	       	     r8	       	       	       	       	       	       	       	       	     r8	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state48     	       	       	       	       	       	       	       	    s49	       	       	       	       	       	       	       	       	       	       	       	    s23	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	
+state49     	     r9	       	       	       	       	       	       	     r9	     r9	       	     r9	       	       	       	       	       	       	       	       	     r9	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	       	

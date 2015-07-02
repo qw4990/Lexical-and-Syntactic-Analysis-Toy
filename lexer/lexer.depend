@@ -1,0 +1,64 @@
+# depslib dependency file v1.0
+1434342392 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\lexer.cpp
+	"../base.h"
+	"ctype.h"
+	"Dfa.h"
+	"utilities.h"
+
+1432983418 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utility.cpp
+	"../base.h"
+
+1432981252 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\base.h
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<map>
+	<set>
+	<vector>
+	<algorithm>
+	<queue>
+	<iostream>
+	<ctype.h>
+	<fstream>
+
+1432983412 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\include\dfa.h
+	"../base.h"
+	"Node.h"
+	"Nfa.h"
+	"ctype.h"
+
+1432983487 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\include\node.h
+	"../base.h"
+
+1432982260 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\include\nfa.h
+	"Node.h"
+
+1432983929 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\main.cpp
+
+1432983349 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\src\dfa.cpp
+	"Dfa.h"
+
+1432982364 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\src\nfa.cpp
+	"Nfa.h"
+
+1432981826 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\src\node.cpp
+	"Node.h"
+
+1432983418 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utility.cpp
+	"../base.h"
+
+1432983418 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utility.h
+	"../base.h"
+
+1432983418 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utility.h
+	"../base.h"
+
+1432983808 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utilities.h
+
+1432983418 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\utilities.h
+	"../base.h"
+
+1432983418 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\lexer\yyys.h
+	"../base.h"
+

@@ -1,0 +1,18 @@
+P -> LIST
+LIST -> EXP ; LIST | EXP
+EXP -> IF | DEFINE | FUNCTION | ORDINARY | var | num | EXEC
+IF -> ( if EXP EXP EXP )
+DEFINE -> ( define var EXP )
+FUNCTION -> ( function var EXP )
+ORDINARY -> ( opt EXP EXP )
+EXEC -> ( exec var )
+
+% exec exec
+% if if
+% define define
+% function function
+% opt + - * /
+% others ( ) ;
+$ num [+-]?[0-9]+
+$ var [_a-zA-Z]+
+

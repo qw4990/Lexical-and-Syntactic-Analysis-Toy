@@ -1,0 +1,38 @@
+# depslib dependency file v1.0
+1432987113 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\main.cpp
+	"base.h"
+
+1434347815 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\parser.cpp
+	"types.h"
+	"utilities.h"
+
+1432986166 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\types.h
+	"base.h"
+
+1432985811 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\base.h
+	<stdio.h>
+	<functional>
+	<set>
+	<vector>
+	<iostream>
+	<fstream>
+	<string>
+	<map>
+	<queue>
+	<cctype>
+	<stack>
+	<algorithm>
+
+1432985896 c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\utilities.h
+	"base.h"
+
+1434347832 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\rule_algo.cpp
+	"types.h"
+	"utilities.h"
+
+1433071248 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\state_algo.cpp
+	"types.h"
+
+1433065683 source:c:\users\zhangyuanjia\desktop\lalr1_lexer_parser\parser\table_algo.cpp
+	"types.h"
+

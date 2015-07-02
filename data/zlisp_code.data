@@ -1,0 +1,15 @@
+(+ -2 2);
+(if (+ 1 2) 1 (+ 3 2));
+(define x (+ 3 2));
+(function addx (+ 1 x));
+(if (+ 1 2) 1 (+ 3 2));
+(define x y);
+(define l 1);
+(define y 2);
+(define x 10000);
+(exec sqrt);
+
+(define l 0);
+(define r x);
+
+(function mid (/ (+ l r) 2))
