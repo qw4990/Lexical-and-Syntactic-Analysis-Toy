@@ -5,57 +5,57 @@
 语法分析部分用LALR(1)对词法分析的结果进行分析。
 
 下面是对配置文件的介绍， 见bfn.data
-# #号为注释
-# bfn配置文件
-# 整个配置文件分为两部分, 词法部分和语法部分
-#
-# 词法部分:
-#	格式一: % 匹配名 串1 串2 串3 ...
-#	比如 % if_words if else then
-#	那遇到if或者else或者then时, 就会被输出成如下
-#		if_words if
-#		if_words else
-#	更多见 lex.data
-#	
-#	格式二: $ 匹配名 正则串
-#	比如 $ number [0-9]+
-#	那遇到2312时, 就会输出如下
-#		number 2312
-#
-#
-# 语法部分:
-#	直接为bfn表达式, 详细例子见下面的C-文法
-#
-#
-#
-# 下面是一个C-的bfn范式
+ # #号为注释
+ # bfn配置文件
+ # 整个配置文件分为两部分, 词法部分和语法部分
+ #
+ # 词法部分:
+ #	格式一: % 匹配名 串1 串2 串3 ...
+ #	比如 % if_words if else then
+ #	那遇到if或者else或者then时, 就会被输出成如下
+ #		if_words if
+ #		if_words else
+ #	更多见 lex.data
+ #	
+ #	格式二: $ 匹配名 正则串
+ #	比如 $ number [0-9]+
+ #	那遇到2312时, 就会输出如下
+ #		number 2312
+ #
+ #
+ # 语法部分:
+ #	直接为bfn表达式, 详细例子见下面的C-文法
+ #
+ #
+ #
+ # 下面是一个C-的bfn范式 
 
 
-program -> stmt-sequence
-stmt-sequence -> stmt-sequence ; statement | statement
-statement -> if-stmt | repeat-stmt | assign-stmt | read-stmt | write-stmt
-if-stmt -> if exp then stmt-sequence end | if exp then stmt-sequence else stmt-sequence end
-repeat-stmt -> repeat stmt-sequence until exp
-assign-stmt -> identifier := exp
-read-stmt -> read identifier
-write-stmt -> write exp
-exp -> simple-exp comparison-op simple-exp | simple-exp
-comparison-op -> < | = | >
-simple-exp -> simple-exp addop term | term
-addop -> + | -
-term -> term mulop factor | factor
-mulop -> * | /
-factor -> ( exp ) | number | identifier 
+ program -> stmt-sequence
+ stmt-sequence -> stmt-sequence ; statement | statement
+ statement -> if-stmt | repeat-stmt | assign-stmt | read-stmt | write-stmt
+ if-stmt -> if exp then stmt-sequence end | if exp then stmt-sequence else stmt-sequence end
+ repeat-stmt -> repeat stmt-sequence until exp
+ assign-stmt -> identifier := exp
+ read-stmt -> read identifier
+ write-stmt -> write exp
+ exp -> simple-exp comparison-op simple-exp | simple-exp
+ comparison-op -> < | = | >
+ simple-exp -> simple-exp addop term | term
+ addop -> + | -
+ term -> term mulop factor | factor
+ mulop -> * | /
+ factor -> ( exp ) | number | identifier 
 
-% reserve_words if then end else repeat until read write
-% operators := > < = + - * / ( ) ; { }
-$ number [-]?[0-9]+
-$ identifier [a-zA-Z_][a-zA-Z0-9]*
+ % reserve_words if then end else repeat until read write
+ % operators := > < = + - * / ( ) ; { }
+ $ number [-]?[0-9]+
+ $ identifier [a-zA-Z_][a-zA-Z0-9]*
 
 
-#如果想要简单的支持分数, 就把下面两句话加上
-#$ fraction [0-9]+/[0-9]+
-#factor -> ( exp ) | number | identifier | fraction
+ #如果想要简单的支持分数, 就把下面两句话加上
+ #$ fraction [0-9]+/[0-9]+
+ #factor -> ( exp ) | number | identifier | fraction
 
 
 接下来是C-的示例， 见code.data， 下面是一部分程序
